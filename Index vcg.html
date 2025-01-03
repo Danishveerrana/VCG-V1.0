@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCG Interface</title>
+</head>
+<body>
+  <h1>VCG - Voice Controlled Graphics</h1>
+  <input type="text" id="command" placeholder="Enter command (move, rotate, etc.)">
+  <input type="number" id="value" placeholder="Enter value (e.g., 50)">
+  <button onclick="sendCommand()">Send Command</button>
+  <div id="response"></div>
+
+  <script>
+    async function sendCommand() {
+      const command = document.getElementById('command').value;
+      const value = document.getElementById('value').value;
+
+      const response = await fetch('http://127.0.0.1:5000/command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command, value }),
+      });
+
+      const result = await response.json();
+      document.getElementById('response').textContent = JSON.stringify(result);
+    }
+  </script>
+</body>
+</html>
